@@ -5,19 +5,20 @@ interface OutfitResultCardProps {
   name: string;
   items: string[];
   tags: string[];
+  onSelect?: () => void;
 }
 
-export function OutfitResultCard({ name, items, tags }: OutfitResultCardProps) {
+export function OutfitResultCard({ name, items, tags, onSelect }: OutfitResultCardProps) {
   return (
     <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-[#F0F0F0]">
       {/* Outfit Image */}
-      <div className="w-full aspect-[4/5] bg-[#F7F7F7]">
+      <button onClick={onSelect} className="w-full aspect-[4/5] bg-[#F7F7F7]">
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d"
           alt={name}
           className="w-full h-full object-cover"
         />
-      </div>
+      </button>
 
       {/* Content */}
       <div className="p-5 space-y-4">

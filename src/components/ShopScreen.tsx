@@ -4,7 +4,11 @@ import { SegmentedControl } from './SegmentedControl';
 import { CategoryChips } from './CategoryChips';
 import { ProductCard } from './ProductCard';
 
-export function ShopScreen() {
+interface ShopScreenProps {
+  onSelectProduct: () => void;
+}
+
+export function ShopScreen({ onSelectProduct }: ShopScreenProps) {
   const [gender, setGender] = useState<'남성' | '여성'>('남성');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -95,6 +99,7 @@ export function ShopScreen() {
               name={product.name}
               price={product.price}
               tags={product.tags}
+              onSelect={onSelectProduct}
             />
           ))}
         </div>

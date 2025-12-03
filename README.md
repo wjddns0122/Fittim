@@ -1,7 +1,7 @@
 
-  # 홈화면
+  # FITTIM UI/UX
 
-  This is a code bundle for 홈화면. The original project is available at https://www.figma.com/design/dMV2HeiJ8prLoQtRDvin6n/%ED%99%88%ED%99%94%EB%A9%B4.
+  This is a code bundle for FITTIM UI/UX. The original project is available at https://www.figma.com/design/dMV2HeiJ8prLoQtRDvin6n/FITTIM-UI-UX.
 
   ## Running the code
 

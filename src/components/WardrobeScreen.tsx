@@ -2,7 +2,12 @@ import { Plus, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { ClothingItemCard } from './ClothingItemCard';
 
-export function WardrobeScreen() {
+interface WardrobeScreenProps {
+  onSelectItem: () => void;
+  onAddItem: () => void;
+}
+
+export function WardrobeScreen({ onSelectItem, onAddItem }: WardrobeScreenProps) {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
 
   const categories = ['ALL', '상의', '하의', '아우터', '신발', '악세사리'];
@@ -31,7 +36,10 @@ export function WardrobeScreen() {
         <h1 className="text-[20px] text-[#1A1A1A]" style={{ fontWeight: 400 }}>
           내 옷장
         </h1>
-        <button className="w-9 h-9 rounded-full bg-[#1A1A1A] flex items-center justify-center hover:bg-[#2A2A2A] transition-colors">
+        <button 
+          onClick={onAddItem}
+          className="w-9 h-9 rounded-full bg-[#1A1A1A] flex items-center justify-center hover:bg-[#2A2A2A] transition-colors"
+        >
           <Plus className="w-5 h-5 text-white" strokeWidth={1.5} />
         </button>
       </header>
@@ -67,6 +75,7 @@ export function WardrobeScreen() {
               key={item.id}
               name={item.name}
               category={item.category}
+              onSelect={onSelectItem}
             />
           ))}
         </div>

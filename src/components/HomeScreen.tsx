@@ -47,7 +47,8 @@ export function HomeScreen({ onGenerateOutfit }: HomeScreenProps) {
           </p>
           <button 
             onClick={onGenerateOutfit}
-            className="w-full py-4 bg-[#1A1A1A] text-white rounded-full text-[15px] tracking-[-0.01em] hover:bg-[#2A2A2A] transition-colors"
+            className="w-full py-4 bg-[#1A1A1A] text-white rounded-full text-[15px] tracking-[-0.01em] hover:bg-[#000000] transition-colors"
+            style={{ fontWeight: 400 }}
           >
             오늘의 FITTIM 만들기
           </button>

@@ -1,8 +1,14 @@
-import { Settings, ChevronRight, User } from 'lucide-react';
+import { Settings, ChevronRight, User, History } from 'lucide-react';
 import { InfoCard } from './InfoCard';
 import { StyleChip } from './StyleChip';
 
-export function MyScreen() {
+interface MyScreenProps {
+  onEditProfile: () => void;
+  onNotifications: () => void;
+  onHistory: () => void;
+}
+
+export function MyScreen({ onEditProfile, onNotifications, onHistory }: MyScreenProps) {
   const userInfo = [
     { label: '키', value: '175cm' },
     { label: '몸무게', value: '68kg' },
@@ -54,7 +60,11 @@ export function MyScreen() {
             <h3 className="text-[15px] text-[#1A1A1A]" style={{ fontWeight: 400 }}>
               내 정보
             </h3>
-            <button className="text-[12px] text-[#9C9C9C] hover:text-[#6B6B6B] transition-colors" style={{ fontWeight: 300 }}>
+            <button 
+              onClick={onEditProfile}
+              className="text-[12px] text-[#9C9C9C] hover:text-[#6B6B6B] transition-colors" 
+              style={{ fontWeight: 300 }}
+            >
               편집
             </button>
           </div>
@@ -105,18 +115,40 @@ export function MyScreen() {
             앱 설정
           </h3>
           <div className="space-y-1">
-            {settingsItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={item.action}
-                className="w-full flex items-center justify-between py-4 hover:bg-[#F7F7F7] transition-colors rounded-xl px-3"
-              >
-                <span className="text-[14px] text-[#1A1A1A]" style={{ fontWeight: 300 }}>
-                  {item.label}
-                </span>
-                <ChevronRight className="w-5 h-5 text-[#9C9C9C]" strokeWidth={1.5} />
-              </button>
-            ))}
+            <button
+              onClick={onHistory}
+              className="w-full flex items-center justify-between py-4 hover:bg-[#F7F7F7] transition-colors rounded-xl px-3"
+            >
+              <span className="text-[14px] text-[#1A1A1A]" style={{ fontWeight: 300 }}>
+                코디 히스토리
+              </span>
+              <ChevronRight className="w-5 h-5 text-[#9C9C9C]" strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={onNotifications}
+              className="w-full flex items-center justify-between py-4 hover:bg-[#F7F7F7] transition-colors rounded-xl px-3"
+            >
+              <span className="text-[14px] text-[#1A1A1A]" style={{ fontWeight: 300 }}>
+                알림 설정
+              </span>
+              <ChevronRight className="w-5 h-5 text-[#9C9C9C]" strokeWidth={1.5} />
+            </button>
+            <button
+              className="w-full flex items-center justify-between py-4 hover:bg-[#F7F7F7] transition-colors rounded-xl px-3"
+            >
+              <span className="text-[14px] text-[#1A1A1A]" style={{ fontWeight: 300 }}>
+                언어
+              </span>
+              <ChevronRight className="w-5 h-5 text-[#9C9C9C]" strokeWidth={1.5} />
+            </button>
+            <button
+              className="w-full flex items-center justify-between py-4 hover:bg-[#F7F7F7] transition-colors rounded-xl px-3"
+            >
+              <span className="text-[14px] text-[#1A1A1A]" style={{ fontWeight: 300 }}>
+                로그아웃
+              </span>
+              <ChevronRight className="w-5 h-5 text-[#9C9C9C]" strokeWidth={1.5} />
+            </button>
           </div>
         </section>
       </div>

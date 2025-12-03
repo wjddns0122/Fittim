@@ -3,9 +3,10 @@ import { OutfitResultCard } from './OutfitResultCard';
 
 interface OutfitResultsScreenProps {
   onBack: () => void;
+  onSelectOutfit: () => void;
 }
 
-export function OutfitResultsScreen({ onBack }: OutfitResultsScreenProps) {
+export function OutfitResultsScreen({ onBack, onSelectOutfit }: OutfitResultsScreenProps) {
   const outfits = [
     {
       id: 1,
@@ -60,6 +61,7 @@ export function OutfitResultsScreen({ onBack }: OutfitResultsScreenProps) {
               name={outfit.name}
               items={outfit.items}
               tags={outfit.tags}
+              onSelect={onSelectOutfit}
             />
           ))}
         </div>
