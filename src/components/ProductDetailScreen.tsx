@@ -1,4 +1,5 @@
-import { ArrowLeft, ExternalLink, Plus } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Plus, Heart, Share2 } from 'lucide-react';
+import { useState } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface ProductDetailScreenProps {
@@ -6,6 +7,11 @@ interface ProductDetailScreenProps {
 }
 
 export function ProductDetailScreen({ onBack }: ProductDetailScreenProps) {
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isAddedToWardrobe, setIsAddedToWardrobe] = useState(false);
+
   const product = {
     brand: '무신사 스탠다드',
     name: '오버핏 베이직 크루넥 티셔츠',
@@ -18,6 +24,15 @@ export function ProductDetailScreen({ onBack }: ProductDetailScreenProps) {
     description: '편안한 착용감의 오버핏 실루엣으로 제작된 베이직 크루넥 티셔츠입니다. 데일리로 활용하기 좋은 아이템입니다.'
   };
 
+  const handleAddToWardrobe = () => {
+    if (!selectedColor || !selectedSize) {
+      alert('색상과 사이즈를 선택해주세요!');
+      return;
+    }
+    setIsAddedToWardrobe(true);
+    alert('옷장에 추가되었습니다!');
+  };
+
   return (
     <>
       {/* Top Bar */}
@@ -28,18 +43,34 @@ export function ProductDetailScreen({ onBack }: ProductDetailScreenProps) {
         <h1 className="text-[15px] text-[#1A1A1A]" style={{ fontWeight: 400 }}>
           상품 상세
         </h1>
-        <div className="w-6" />
+        <button className="p-1">
+          <Share2 className="w-5 h-5 text-[#1A1A1A]" strokeWidth={1.5} />
+        </button>
       </header>
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto pb-32">
         {/* Product Image */}
-        <div className="w-full aspect-square bg-[#FAFAFA]">
+        <div className="w-full aspect-square bg-[#FAFAFA] relative">
           <ImageWithFallback
             src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633"
             alt={product.name}
             className="w-full h-full object-cover"
           />
+          {/* Like Button Overlay */}
+          <button
+            onClick={() => setIsLiked(!isLiked)}
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg"
+          >
+            <Heart 
+              className={`w-5 h-5 ${isLiked ? 'fill-red-500 text-red-500' : 'text-[#1A1A1A]'}`} 
+              strokeWidth={1.5} 
+            />
+          </button>
+          {/* Discount Badge */}
+          <div className="absolute top-4 left-4 px-3 py-1.5 bg-red-500 text-white text-[12px] rounded-full" style={{ fontWeight: 400 }}>
+            {product.discount}% OFF
+          </div>
         </div>
 
         {/* Product Info */}
@@ -89,7 +120,12 @@ export function ProductDetailScreen({ onBack }: ProductDetailScreenProps) {
               {product.colors.map((color) => (
                 <button
                   key={color}
-                  className="px-4 py-2.5 rounded-full bg-white border border-[#EAEAEA] text-[#1A1A1A] text-[13px] hover:border-[#1A1A1A] transition-colors"
+                  onClick={() => setSelectedColor(color)}
+                  className={`px-4 py-2.5 rounded-full bg-white border text-[13px] transition-colors ${
+                    selectedColor === color
+                      ? 'border-[#74A8FF] bg-[#EBF3FF] text-[#74A8FF]'
+                      : 'border-[#EAEAEA] text-[#1A1A1A] hover:border-[#1A1A1A]'
+                  }`}
                   style={{ fontWeight: 300 }}
                 >
                   {color}
@@ -107,7 +143,12 @@ export function ProductDetailScreen({ onBack }: ProductDetailScreenProps) {
               {product.sizes.map((size) => (
                 <button
                   key={size}
-                  className="px-5 py-2.5 rounded-full bg-white border border-[#EAEAEA] text-[#1A1A1A] text-[13px] hover:border-[#1A1A1A] transition-colors"
+                  onClick={() => setSelectedSize(size)}
+                  className={`px-5 py-2.5 rounded-full bg-white border text-[13px] transition-colors ${
+                    selectedSize === size
+                      ? 'border-[#74A8FF] bg-[#EBF3FF] text-[#74A8FF]'
+                      : 'border-[#EAEAEA] text-[#1A1A1A] hover:border-[#1A1A1A]'
+                  }`}
                   style={{ fontWeight: 300 }}
                 >
                   {size}
@@ -135,11 +176,19 @@ export function ProductDetailScreen({ onBack }: ProductDetailScreenProps) {
       </div>
 
       {/* Bottom Action Bar */}
-      <div className="absolute bottom-20 left-0 right-0 px-6 pb-4 bg-white border-t border-[#EAEAEA]">
+      <div className="absolute bottom-0 left-0 right-0 px-6 pb-4 bg-white border-t border-[#EAEAEA]">
         <div className="flex gap-3 pt-4">
-          <button className="flex-1 py-4 rounded-full border border-[#EAEAEA] text-[#1A1A1A] text-[15px] hover:bg-[#FAFAFA] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 400 }}>
+          <button 
+            onClick={handleAddToWardrobe}
+            className={`flex-1 py-4 rounded-full border text-[15px] transition-colors flex items-center justify-center gap-2 ${
+              isAddedToWardrobe
+                ? 'border-[#74A8FF] bg-[#74A8FF] text-white'
+                : 'border-[#EAEAEA] text-[#1A1A1A] hover:bg-[#FAFAFA]'
+            }`}
+            style={{ fontWeight: 400 }}
+          >
             <Plus className="w-5 h-5" strokeWidth={1.5} />
-            옷장에 추가
+            {isAddedToWardrobe ? '추가됨' : '옷장에 추가'}
           </button>
           <button className="flex-1 py-4 rounded-full bg-[#1A1A1A] text-white text-[15px] hover:bg-[#000000] transition-colors" style={{ fontWeight: 400 }}>
             코디에 추가

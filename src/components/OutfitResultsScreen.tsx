@@ -1,5 +1,7 @@
 import { ArrowLeft, SlidersHorizontal } from 'lucide-react';
+import { useState } from 'react';
 import { OutfitResultCard } from './OutfitResultCard';
+import { FitFilterSheet, FilterOptions } from './FitFilterSheet';
 
 interface OutfitResultsScreenProps {
   onBack: () => void;
@@ -7,6 +9,14 @@ interface OutfitResultsScreenProps {
 }
 
 export function OutfitResultsScreen({ onBack, onSelectOutfit }: OutfitResultsScreenProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterOptions>({
+    location: null,
+    mood: null,
+    colors: [],
+    formality: 50
+  });
+
   const outfits = [
     {
       id: 1,
@@ -29,6 +39,17 @@ export function OutfitResultsScreen({ onBack, onSelectOutfit }: OutfitResultsScr
     }
   ];
 
+  const handleApplyFilters = (newFilters: FilterOptions) => {
+    setFilters(newFilters);
+    // Here you would typically regenerate outfits based on filters
+    console.log('Applied filters:', newFilters);
+  };
+
+  const handleRegenerate = () => {
+    // Regenerate outfits with current filters
+    console.log('Regenerating with filters:', filters);
+  };
+
   return (
     <>
       {/* Top Bar */}
@@ -39,7 +60,7 @@ export function OutfitResultsScreen({ onBack, onSelectOutfit }: OutfitResultsScr
         <h1 className="text-[15px] tracking-[0.05em] text-[#1A1A1A]" style={{ fontWeight: 400 }}>
           오늘의 FITTIM
         </h1>
-        <button className="p-1">
+        <button onClick={() => setIsFilterOpen(true)} className="p-1">
           <SlidersHorizontal className="w-5 h-5 text-[#1A1A1A]" strokeWidth={1.5} />
         </button>
       </header>
@@ -68,11 +89,22 @@ export function OutfitResultsScreen({ onBack, onSelectOutfit }: OutfitResultsScr
 
         {/* Regenerate Button */}
         <div className="px-6 pb-6">
-          <button className="w-full py-4 bg-white text-[#1A1A1A] rounded-full text-[15px] border border-[#E0E0E0] hover:bg-[#F7F7F7] transition-colors" style={{ fontWeight: 400 }}>
+          <button 
+            onClick={handleRegenerate}
+            className="w-full py-4 bg-white text-[#1A1A1A] rounded-full text-[15px] border border-[#E0E0E0] hover:bg-[#F7F7F7] transition-colors" 
+            style={{ fontWeight: 400 }}
+          >
             다시 생성
           </button>
         </div>
       </div>
+
+      {/* Filter Sheet */}
+      <FitFilterSheet
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        onApply={handleApplyFilters}
+      />
     </>
   );
 }

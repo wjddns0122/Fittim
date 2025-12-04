@@ -1,10 +1,26 @@
 import { Mail } from 'lucide-react';
+import { useState } from 'react';
 
 interface LoginScreenProps {
   onLogin: () => void;
 }
 
 export function LoginScreen({ onLogin }: LoginScreenProps) {
+  const [email, setEmail] = useState('');
+
+  const handleEmailLogin = () => {
+    if (!email) {
+      alert('이메일을 입력해주세요!');
+      return;
+    }
+    onLogin();
+  };
+
+  const handleSocialLogin = (provider: string) => {
+    console.log(`Logging in with ${provider}`);
+    onLogin();
+  };
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-8 bg-white">
       {/* Logo Section */}
@@ -50,6 +66,8 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
           />
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="이메일 주소"
             className="w-full pl-12 pr-4 py-4 bg-[#FAFAFA] border border-[#EAEAEA] rounded-full text-[15px] text-[#1A1A1A] placeholder:text-[#9C9C9C] focus:outline-none focus:border-[#1A1A1A] transition-colors"
             style={{ fontWeight: 300 }}
@@ -58,12 +76,39 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
 
         {/* Start Button */}
         <button 
-          onClick={onLogin}
+          onClick={handleEmailLogin}
           className="w-full py-4 bg-[#1A1A1A] text-white rounded-full text-[15px] hover:bg-[#000000] transition-colors"
           style={{ fontWeight: 400 }}
         >
           시작하기
         </button>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 py-4">
+          <div className="flex-1 h-px bg-[#EAEAEA]" />
+          <span className="text-[12px] text-[#9C9C9C]" style={{ fontWeight: 300 }}>
+            또는
+          </span>
+          <div className="flex-1 h-px bg-[#EAEAEA]" />
+        </div>
+
+        {/* Social Login Buttons */}
+        <div className="space-y-2">
+          <button 
+            onClick={() => handleSocialLogin('Kakao')}
+            className="w-full py-4 bg-[#FEE500] text-[#000000] rounded-full text-[15px] hover:bg-[#FDD835] transition-colors"
+            style={{ fontWeight: 400 }}
+          >
+            카카오로 계속하기
+          </button>
+          <button 
+            onClick={() => handleSocialLogin('Apple')}
+            className="w-full py-4 bg-white border border-[#EAEAEA] text-[#1A1A1A] rounded-full text-[15px] hover:bg-[#FAFAFA] transition-colors"
+            style={{ fontWeight: 400 }}
+          >
+            Apple로 계속하기
+          </button>
+        </div>
 
         {/* Terms */}
         <p 
