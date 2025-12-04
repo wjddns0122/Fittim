@@ -5,9 +5,10 @@ import { OutfitCard } from './OutfitCard';
 
 interface HomeScreenProps {
   onGenerateOutfit: () => void;
+  onProfileClick?: () => void;
 }
 
-export function HomeScreen({ onGenerateOutfit }: HomeScreenProps) {
+export function HomeScreen({ onGenerateOutfit, onProfileClick }: HomeScreenProps) {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [weather] = useState({
@@ -43,7 +44,10 @@ export function HomeScreen({ onGenerateOutfit }: HomeScreenProps) {
         <div className="flex-1" />
         <h1 className="text-[13px] tracking-[0.15em]">FITTIM</h1>
         <div className="flex-1 flex justify-end">
-          <button className="w-9 h-9 rounded-full bg-[#F7F7F7] flex items-center justify-center">
+          <button
+            className="w-9 h-9 rounded-full bg-[#F7F7F7] flex items-center justify-center"
+            onClick={onProfileClick}
+          >
             <User className="w-4 h-4 text-[#1A1A1A]" strokeWidth={1.5} />
           </button>
         </div>

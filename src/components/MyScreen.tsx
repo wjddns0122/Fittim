@@ -6,9 +6,10 @@ interface MyScreenProps {
   onEditProfile: () => void;
   onNotifications: () => void;
   onHistory: () => void;
+  onSettings?: () => void;
 }
 
-export function MyScreen({ onEditProfile, onNotifications, onHistory }: MyScreenProps) {
+export function MyScreen({ onEditProfile, onNotifications, onHistory, onSettings }: MyScreenProps) {
   const userInfo = [
     { label: '키', value: '175cm' },
     { label: '몸무게', value: '68kg' },
@@ -31,7 +32,7 @@ export function MyScreen({ onEditProfile, onNotifications, onHistory }: MyScreen
         <h1 className="text-[20px] text-[#1A1A1A]" style={{ fontWeight: 400 }}>
           My
         </h1>
-        <button className="p-1">
+        <button onClick={onSettings} className="p-1">
           <Settings className="w-5 h-5 text-[#1A1A1A]" strokeWidth={1.5} />
         </button>
       </header>

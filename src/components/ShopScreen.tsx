@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { SegmentedControl } from './SegmentedControl';
 import { CategoryChips } from './CategoryChips';
 import { ProductCard } from './ProductCard';
+import { ShopFilterSheet, ShopFilterOptions } from './ShopFilterSheet';
 
 interface ShopScreenProps {
   onSelectProduct: () => void;
@@ -11,6 +12,13 @@ interface ShopScreenProps {
 export function ShopScreen({ onSelectProduct }: ShopScreenProps) {
   const [gender, setGender] = useState<'남성' | '여성'>('남성');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<ShopFilterOptions>({
+    priceRange: [0, 200000],
+    brands: [],
+    sortBy: '추천순',
+    onlyDiscount: false
+  });
 
   const categories = ['상의', '하의', '아우터', '신발', '세트', '기타'];
 
@@ -59,6 +67,11 @@ export function ShopScreen({ onSelectProduct }: ShopScreenProps) {
     }
   ];
 
+  const handleApplyFilters = (newFilters: ShopFilterOptions) => {
+    setFilters(newFilters);
+    console.log('Applied filters:', newFilters);
+  };
+
   return (
     <>
       {/* Header */}
@@ -66,7 +79,7 @@ export function ShopScreen({ onSelectProduct }: ShopScreenProps) {
         <h1 className="text-[20px] text-[#1A1A1A]" style={{ fontWeight: 400 }}>
           추천 쇼핑
         </h1>
-        <button className="p-1">
+        <button onClick={() => setIsFilterOpen(true)} className="p-1">
           <SlidersHorizontal className="w-5 h-5 text-[#1A1A1A]" strokeWidth={1.5} />
         </button>
       </header>
@@ -104,6 +117,13 @@ export function ShopScreen({ onSelectProduct }: ShopScreenProps) {
           ))}
         </div>
       </div>
+
+      {/* Filter Sheet */}
+      <ShopFilterSheet
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        onApply={handleApplyFilters}
+      />
     </>
   );
 }

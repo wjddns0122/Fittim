@@ -14,6 +14,8 @@ import { MyScreen } from './components/MyScreen';
 import { EditProfileScreen } from './components/EditProfileScreen';
 import { NotificationSettingsScreen } from './components/NotificationSettingsScreen';
 import { HistoryScreen } from './components/HistoryScreen';
+import { ProfileScreen } from './components/ProfileScreen';
+import { SettingsScreen } from './components/SettingsScreen';
 
 type ScreenType = 
   | 'login'
@@ -29,7 +31,9 @@ type ScreenType =
   | 'my'
   | 'edit-profile'
   | 'notifications'
-  | 'history';
+  | 'history'
+  | 'profile'
+  | 'settings';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('login');
@@ -49,7 +53,10 @@ export default function App() {
       case 'login':
         return <LoginScreen onLogin={handleLogin} />;
       case 'home':
-        return <HomeScreen onGenerateOutfit={() => setCurrentScreen('loading')} />;
+        return <HomeScreen 
+          onGenerateOutfit={() => setCurrentScreen('loading')}
+          onProfileClick={() => setCurrentScreen('profile')}
+        />;
       case 'loading':
         return <LoadingScreen onComplete={() => setCurrentScreen('results')} />;
       case 'results':
@@ -77,6 +84,7 @@ export default function App() {
           onEditProfile={() => setCurrentScreen('edit-profile')}
           onNotifications={() => setCurrentScreen('notifications')}
           onHistory={() => setCurrentScreen('history')}
+          onSettings={() => setCurrentScreen('settings')}
         />;
       case 'edit-profile':
         return <EditProfileScreen onBack={() => setCurrentScreen('my')} />;
@@ -84,6 +92,16 @@ export default function App() {
         return <NotificationSettingsScreen onBack={() => setCurrentScreen('my')} />;
       case 'history':
         return <HistoryScreen onBack={() => setCurrentScreen('my')} />;
+      case 'profile':
+        return <ProfileScreen 
+          onBack={() => setCurrentScreen('home')} 
+          onEditProfile={() => setCurrentScreen('edit-profile')}
+        />;
+      case 'settings':
+        return <SettingsScreen 
+          onBack={() => setCurrentScreen('my')} 
+          onNotifications={() => setCurrentScreen('notifications')}
+        />;
       default:
         return <HomeScreen onGenerateOutfit={() => setCurrentScreen('loading')} />;
     }
@@ -103,7 +121,9 @@ export default function App() {
        currentScreen !== 'edit-profile' &&
        currentScreen !== 'notifications' &&
        currentScreen !== 'history' &&
-       currentScreen !== 'loading' && (
+       currentScreen !== 'loading' &&
+       currentScreen !== 'profile' &&
+       currentScreen !== 'settings' && (
         <nav className="absolute bottom-0 left-0 right-0 bg-white border-t border-[#EAEAEA] px-4 py-3">
           <div className="flex items-center justify-around">
             <button 
